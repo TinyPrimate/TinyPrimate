@@ -18,7 +18,8 @@
       used to trigger events at a defined tickrate as `selectedTrack` plays
     stopInterval - clears out the interval instance passed to it. Used
       within this component to stop `playbackTicker`
-    getCurrentTimeInSeconds - Returns the `currentTimeInSeconds` data property
+    getCurrentTimeInSeconds - Returns the `currentTimeInSeconds` data
+      property
     selectTrack - Pauses the current song and overwrites the
       `selectedTrack` audio element with a new element sourced from the audio asset
       passed into this method
@@ -48,7 +49,8 @@ export default {
   data() {
     return {
       currentTimeInSeconds: 0,
-      selectedTrack: new Audio(tinyPrimateWav),
+      selectedTrack: null,
+      // selectedTrack: new Audio(tinyPrimateWav),
       playbackTicker: null,
     };
   },
@@ -56,6 +58,9 @@ export default {
 
     // Begins or resumes playback of the audio element represented by `selectedTrack`
     playTrack() {
+      if (!this.selectedTrack) {
+        this.selectedTrack = new Audio(tinyPrimateWav);
+      }
       this.selectedTrack.play();
       this.startPlaybackTicker(this.selectedTrack, 100);
     },
