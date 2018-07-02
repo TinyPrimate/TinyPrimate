@@ -36,7 +36,7 @@
     <button id="playButton" v-on:click="playTrack">play</button>
     <button id="pauseButton" v-on:click="pauseTrack">pause</button>
     <button id="altTrack" v-on:click="altTrack">change</button>
-    <h2>{{ currentTimeInSeconds }}</h2>
+    <h2 id="currentTimeInSeconds">{{ currentTimeInSeconds }}</h2>
   </div>
 </template>
 
@@ -50,7 +50,6 @@ export default {
     return {
       currentTimeInSeconds: 0,
       selectedTrack: null,
-      // selectedTrack: new Audio(tinyPrimateWav),
       playbackTicker: null,
     };
   },

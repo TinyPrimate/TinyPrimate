@@ -4,6 +4,8 @@ import Vue from 'vue';
 // import { createLocalVue } from '@vue/test-utils'
 import PlaylistControls from '@/components/audio/v1/PlaylistControls.vue';
 
+
+
 describe('PlaylistControls.vue module', () => {
   // Inspect the raw component options
   it('has an array of beforeCreate hooks', () => {
@@ -28,7 +30,7 @@ describe('PlaylistControls.vue module', () => {
   });
 });
 
-describe('PlaylistControls.vue component instance', () => {
+describe('PlaylistControls component instance', () => {
   it('should be an instance of Vue', () => {
     const vm = new Vue(PlaylistControls).$mount();
     expect(vm).to.be.an.instanceOf(Vue);
