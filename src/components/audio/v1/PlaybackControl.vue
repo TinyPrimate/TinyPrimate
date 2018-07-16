@@ -6,8 +6,8 @@
 
   Data Properties:
     selectedTrack - An HTML audio element containing the selected song
-      currentTime - The currentTime property value for `selectedTrack`
-      ticker - the looping timeout function used
+    currentTimeInSeconds - The currentTime property value for `selectedTrack`
+    playbackTicker - the looping timeout function used
 
   Methods:
     playTrack - Begins or resumes playback of the audio element
@@ -26,24 +26,35 @@
     altTrack - A temporary development tool used to switch between two tracks.
       Impletmented to postpone having to construct custom
       track selection functionality.
-
 -TinyPrimate
 -->
 
 <!-- html -->
 <template>
-  <div id="album_control_wrapper">
+  <div id="playback_control_wrapper">
     <button id="playButton" v-on:click="playTrack">play</button>
     <button id="pauseButton" v-on:click="pauseTrack">pause</button>
     <button id="altTrack" v-on:click="altTrack">change</button>
-    <h2 id="currentTimeInSeconds">{{ currentTimeInSeconds }}</h2>
+    <br><span id="currentTimeInSeconds">{{ currentTimeInSeconds }}</span>
+  <Playlist/>
   </div>
 </template>
 
 <!-- javascript -->
+
+<!-- For now, the audio files are coded in.
+However, this should connect to a network module
+that fetches song records and returns
+links to the files within s3 buckets
+(or whatever best option chosen for audio storage)..
+Somthing like.... import PlaylistFactory from @/factories/
+-->
 <script type="text/javascript">
+// track urls hard coded for now, but will eventually come from Playlist.vue component
 import tinyPrimateWav from '@/assets/audio/baby_talk/tiny_primate_4.wav';
 import contortionistWav from '@/assets/audio/baby_talk/contortionist_5.wav';
+
+import Playlist from '@/components/audio/v1/Playlist.vue';
 
 export default {
   data() {
@@ -52,6 +63,9 @@ export default {
       selectedTrack: null,
       playbackTicker: null,
     };
+  },
+  components: {
+    Playlist,
   },
   methods: {
 
@@ -132,10 +146,20 @@ export default {
 
 <!-- scss -->
 <style scoped lang="scss">
+#playback_control_wrapper {
+  width: 38%;
+  height: 500px;
+  border: 2px solid black;
+  padding: 5px;
+}
+#currentTimeInSeconds {
+  padding: 2px;
+  text-align: middle;
+}
 button {
   width: 50px;
   height: 50px;
   background-color: lightgrey;
-  border: 5px solid black;
+  border: 1px solid black;
 }
 </style>
