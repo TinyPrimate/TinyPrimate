@@ -116,7 +116,8 @@ export default {
       // Early escape if the track passed in is already the selected track
       console.log("trackObj", trackObj);
       if (this.selectedTrack) {
-        if (this.selectedTrack.trackId === `${trackObj.trackId}`) {
+        console.log("this.selectedTrack", this.selectedTrack);
+        if (this.selectedTrack.src === `${trackObj.url}`) {
           return;
         }
         // Otherwise, pauses the current track. Overwrites `selectedTrack` instance with a new
@@ -126,7 +127,7 @@ export default {
       // this.selectedTrack = new Audio(selectedTrackSrc);
       let trackSrc = trackObj.url;
       console.log("trackSrc:", trackSrc);
-      this.selectedTrack = new Audio(trackSrc);
+      this.selectedTrack = new Audio();
       this.playTrack();
     },
 
