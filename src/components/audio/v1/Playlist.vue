@@ -26,12 +26,16 @@
 
 <template>
   <div id="playlist">
-    <li :key="track.trackId" v-for="track in playlist">{{ track.title }}</li>
+    <PlaybackControl/>
+    <li :key="track.trackId" v-for="track in playlist" v-on:click="selectTrack(track)">
+      {{ track.title }}
+    </li>
   </div>
 </template>
 
 <script type="text/javascript">
 import PlaylistFactory from '@/factories/PlaylistFactory.vue';
+import PlaybackControl from '@/components/audio/v1/PlaybackControl.vue';
 
 export default {
   data() {
@@ -41,6 +45,10 @@ export default {
   },
   components: {
     PlaylistFactory,
+    PlaybackControl,
+  },
+  created() {
+    // console.log('playlist: ', this);
   },
   methods: {
     assemblePlaylist() {
@@ -55,6 +63,10 @@ export default {
       }
       return this.playlist[trackId].url;
     },
+    selectTrack(track = null) {
+      let selectedTrack = track;
+      this.$children[0].selectTrack(selectedTrack);
+    },
   },
   mounted() {
     this.assemblePlaylist();
@@ -63,11 +75,12 @@ export default {
 </script>
 
 <style type="scss">
-/*#playlist {
-  width: 100%;
+#playlist {
+  width: 38%;
   height: 500px;
   border: 2px solid black;
-}*/
+  padding: 5px;
+}
 
 li {
   list-style: none;

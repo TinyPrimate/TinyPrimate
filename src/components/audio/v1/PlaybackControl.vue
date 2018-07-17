@@ -36,7 +36,6 @@
     <button id="pauseButton" v-on:click="pauseTrack">pause</button>
     <button id="altTrack" v-on:click="altTrack">change</button>
     <br><span id="currentTimeInSeconds">{{ currentTimeInSeconds }}</span>
-  <Playlist/>
   </div>
 </template>
 
@@ -54,8 +53,6 @@ Somthing like.... import PlaylistFactory from @/factories/
 import tinyPrimateWav from '@/assets/audio/baby_talk/tiny_primate_4.wav';
 import contortionistWav from '@/assets/audio/baby_talk/contortionist_5.wav';
 
-import Playlist from '@/components/audio/v1/Playlist.vue';
-
 export default {
   data() {
     return {
@@ -64,14 +61,12 @@ export default {
       playbackTicker: null,
     };
   },
-  components: {
-    Playlist,
-  },
   methods: {
 
     // Begins or resumes playback of the audio element represented by `selectedTrack`
     playTrack() {
       if (!this.selectedTrack) {
+        // console.log('this: ', this);
         this.selectedTrack = new Audio(tinyPrimateWav);
       }
       this.selectedTrack.play();
@@ -116,16 +111,22 @@ export default {
     Pauses the current song and overwrites `selectedTrack` audio element with a new element
     sourced from a different audio file
     */
-    selectTrack(selectedTrackSrc) {
+    selectTrack(trackObj) {
       // TODO: this is a sloppy way to decide if the track should be changed. Make better.
       // Early escape if the track passed in is already the selected track
-      if (this.selectedTrack.src === `${selectedTrackSrc}`) {
-        return;
+      console.log("trackObj", trackObj);
+      if (this.selectedTrack) {
+        if (this.selectedTrack.trackId === `${trackObj.trackId}`) {
+          return;
+        }
+        // Otherwise, pauses the current track. Overwrites `selectedTrack` instance with a new
+        this.pauseTrack();
       }
-      // Otherwise, pauses the current track. Overwrites `selectedTrack` instance with a new
       // audio element sourced from the argument passed in. Begins playing the new track.
-      this.pauseTrack();
-      this.selectedTrack = new Audio(selectedTrackSrc);
+      // this.selectedTrack = new Audio(selectedTrackSrc);
+      let trackSrc = trackObj.url;
+      console.log("trackSrc:", trackSrc);
+      this.selectedTrack = new Audio(trackSrc);
       this.playTrack();
     },
 
@@ -146,12 +147,12 @@ export default {
 
 <!-- scss -->
 <style scoped lang="scss">
-#playback_control_wrapper {
-  width: 38%;
-  height: 500px;
-  border: 2px solid black;
-  padding: 5px;
-}
+// #playback_control_wrapper {
+//   width: 38%;
+//   height: 500px;
+//   border: 2px solid black;
+//   padding: 5px;
+// }
 #currentTimeInSeconds {
   padding: 2px;
   text-align: middle;
