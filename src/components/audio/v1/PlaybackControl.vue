@@ -57,20 +57,24 @@ export default {
   data() {
     return {
       currentTimeInSeconds: 0,
+      trackElements: {},
       selectedTrack: null,
       playbackTicker: null,
+      ctx: new AudioContext(),
     };
   },
   methods: {
 
     // Begins or resumes playback of the audio element represented by `selectedTrack`
     playTrack() {
-      if (!this.selectedTrack) {
+      let track = this.selectedTrack;
+      if (!this.trackElements[track.trackId]) {
         // console.log('this: ', this);
-        this.selectedTrack = new Audio(tinyPrimateWav);
+        this.trackElements[track.trackId] = new Audio(track.url);
       }
-      this.selectedTrack.play();
-      this.startPlaybackTicker(this.selectedTrack, 100);
+      console.log('selected track element: ', this.trackElements[track.trackId]);
+      this.trackElements[track.trackId].play();
+      this.startPlaybackTicker(this.trackElements[track.trackId], 100);
     },
 
     // Pauses playback of the audio element represented by `selectedTrack`
@@ -117,17 +121,18 @@ export default {
       console.log('trackObj', trackObj);
       if (this.selectedTrack) {
         console.log('this.selectedTrack', this.selectedTrack);
-        if (this.selectedTrack.src === `${trackObj.url}`) {
+        if (this.selectedTrack.trackId === `${trackObj.trackId}`) {
           return;
         }
         // Otherwise, pauses the current track. Overwrites `selectedTrack` instance with a new
         this.pauseTrack();
       }
+      this.selectedTrack = trackObj;
       // audio element sourced from the argument passed in. Begins playing the new track.
       // this.selectedTrack = new Audio(selectedTrackSrc);
-      const trackSrc = trackObj.url;
-      console.log('trackSrc:', trackSrc);
-      this.selectedTrack = new Audio();
+      // const trackSrc = trackObj.url;
+      // console.log('trackSrc:', trackSrc);
+      // this.selectedTrack = new Audio(trackSrc);
       this.playTrack();
     },
     // fetchTrack mvp fetch call to retrieve audio file
