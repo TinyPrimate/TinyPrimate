@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     assemblePlaylist() {
-      this.playlist = PlaylistFactory.methods.getTracksByFilter();
+      this.playlist = PlaylistFactory.methods.getTracksByFilter('/Users/Sam/TinyPrimate/tinyprimate/src/assets/audio/baby_talk');
       return this.playlist;
     },
     getTrackSource(trackId = null) {
@@ -64,7 +64,7 @@ export default {
       return this.playlist[trackId].url;
     },
     selectTrack(track = null) {
-      let selectedTrack = track;
+      const selectedTrack = track;
       this.$children[0].selectTrack(selectedTrack);
     },
   },

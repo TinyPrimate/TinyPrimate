@@ -5,6 +5,8 @@ import Vue from 'vue';
 
 describe('Playlist.vue', () => {
   const vm = new Vue(Playlist);
+  const trackBucketUrl = '/Users/Sam/TinyPrimate/tinyprimate/src/assets/audio/baby_talk';
+
   it('assemblePlaylist() assembles the default playlist with no query passed in', () => {
     const playlist = vm.assemblePlaylist();
     // verifies the default playlist is returned when no query parameter passed in
@@ -12,26 +14,26 @@ describe('Playlist.vue', () => {
       0: {
         trackId: 0,
         title: 'Tiny Primate__4',
-        url: '@/assets/audio/baby_talk/tiny_primate_4.wav',
+        url: `${trackBucketUrl}/tiny_primate_4.wav`,
       },
       1: {
         trackId: 1,
         title: 'Contortionist__5',
-        url: '@/assets/audio/baby_talk/contortionist_5.wav',
+        url: `${trackBucketUrl}/contortionist_5.wav`,
       },
     });
     // assert playlist track titles visible in dom. but first need to implement template.
   });
 
   it('getTrackSource() returns the correct source url if track id passed in as number', () => {
-    const expectedUrl = '@/assets/audio/baby_talk/tiny_primate_4.wav';
+    const expectedUrl = `${trackBucketUrl}/tiny_primate_4.wav`;
     vm.assemblePlaylist();
     const actualUrl = vm.getTrackSource(0);
     expect(expectedUrl).to.equal(actualUrl);
   });
 
   it('getTrackSource() returns the correct source url if track index passed in as string', () => {
-    const expectedUrl = '@/assets/audio/baby_talk/tiny_primate_4.wav';
+    const expectedUrl = `${trackBucketUrl}/tiny_primate_4.wav`;
     const actualUrl = vm.getTrackSource('0');
     expect(expectedUrl).to.equal(actualUrl);
   });

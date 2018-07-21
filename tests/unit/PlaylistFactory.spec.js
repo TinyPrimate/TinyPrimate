@@ -5,6 +5,7 @@ import Vue from 'vue';
 describe('PlaylistFactory.vue getTracksByFilter()', () => {
   // The component must be instantiated outside of the test case
   const vm = new Vue(PlaylistFactory);
+  const trackBucketUrl = '/Users/Sam/TinyPrimate/tinyprimate/src/assets/audio/baby_talk';
   it('returns the expected default dictionary of track objects', () => {
     const tracks = vm.getTracksByFilter();
     expect(tracks).to.be.a('Object');
@@ -12,12 +13,12 @@ describe('PlaylistFactory.vue getTracksByFilter()', () => {
       0: {
         trackId: 0,
         title: 'Tiny Primate__4',
-        url: '@/assets/audio/baby_talk/tiny_primate_4.wav',
+        url: `${trackBucketUrl}/tiny_primate_4.wav`,
       },
       1: {
         trackId: 1,
         title: 'Contortionist__5',
-        url: '@/assets/audio/baby_talk/contortionist_5.wav',
+        url: `${trackBucketUrl}/contortionist_5.wav`,
       },
     });
   });

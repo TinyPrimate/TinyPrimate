@@ -114,9 +114,9 @@ export default {
     selectTrack(trackObj) {
       // TODO: this is a sloppy way to decide if the track should be changed. Make better.
       // Early escape if the track passed in is already the selected track
-      console.log("trackObj", trackObj);
+      console.log('trackObj', trackObj);
       if (this.selectedTrack) {
-        console.log("this.selectedTrack", this.selectedTrack);
+        console.log('this.selectedTrack', this.selectedTrack);
         if (this.selectedTrack.src === `${trackObj.url}`) {
           return;
         }
@@ -125,10 +125,19 @@ export default {
       }
       // audio element sourced from the argument passed in. Begins playing the new track.
       // this.selectedTrack = new Audio(selectedTrackSrc);
-      let trackSrc = trackObj.url;
-      console.log("trackSrc:", trackSrc);
+      const trackSrc = trackObj.url;
+      console.log('trackSrc:', trackSrc);
       this.selectedTrack = new Audio();
       this.playTrack();
+    },
+    // fetchTrack mvp fetch call to retrieve audio file
+    // not optomized for anything
+    // just get the damn song
+    fetchTrack(url) {
+      fetch(url)
+        .then((track) => {
+          // console.log("track: ", track);
+        });
     },
 
     // auto-select alternate track for user. dev use.
