@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       currentTimeInSeconds: 0,
-      trackElements: {},
+      trackBuffers: {},
       selectedTrack: null,
       playbackTicker: null,
       ctx: new AudioContext(),
@@ -68,13 +68,14 @@ export default {
     // Begins or resumes playback of the audio element represented by `selectedTrack`
     playTrack() {
       let track = this.selectedTrack;
-      if (!this.trackElements[track.trackId]) {
-        // console.log('this: ', this);
-        this.trackElements[track.trackId] = new Audio(track.url);
+      if (!this.isTrackInitialized(track)) {
+        this.loadTrack(track);
       }
-      console.log('selected track element: ', this.trackElements[track.trackId]);
-      this.trackElements[track.trackId].play();
-      this.startPlaybackTicker(this.trackElements[track.trackId], 100);
+      // console.log('selected track element: ', this.trackBuffers[track.trackId]);
+
+      // THIS will be a problem. Changing to use web audio api. will need additional wiring
+      this.trackBuffers[track.trackId].play();
+      this.startPlaybackTicker(this.trackBuffers[track.trackId], 100);
     },
 
     // Pauses playback of the audio element represented by `selectedTrack`
@@ -118,6 +119,7 @@ export default {
     selectTrack(trackObj) {
       // TODO: this is a sloppy way to decide if the track should be changed. Make better.
       // Early escape if the track passed in is already the selected track
+      // this.isTrackInitialized(trackObj);
       console.log('trackObj', trackObj);
       if (this.selectedTrack) {
         console.log('this.selectedTrack', this.selectedTrack);
@@ -138,11 +140,18 @@ export default {
     // fetchTrack mvp fetch call to retrieve audio file
     // not optomized for anything
     // just get the damn song
-    fetchTrack(url) {
-      fetch(url)
-        .then((track) => {
-          // console.log("track: ", track);
+    loadTrack(trackObj) {
+      console.log("loadTrack fetching track: ", trackObj);
+      fetch(trackObj.url)
+        .then((audioResponse) => {
+          console.log('audioResponse: ', audioResponse);
         });
+    },
+    isTrackInitialized(track) {
+      if (this.trackBuffers[track.trackId]) {
+        return true;
+      }
+      return false;
     },
 
     // auto-select alternate track for user. dev use.
