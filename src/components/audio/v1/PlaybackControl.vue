@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       currentTimeInSeconds: 0,
-      trackBuffers: {},
+      tracks: {},
       selectedTrack: null,
       playbackTicker: null,
       ctx: new AudioContext(),
@@ -65,17 +65,29 @@ export default {
   },
   methods: {
 
+    // TODO, load track on initialization, so that playTrack always has a selectedTrack to work with
+
     // Begins or resumes playback of the audio element represented by `selectedTrack`
     playTrack() {
-      let track = this.selectedTrack;
+      // TODO Need a try catch HERE that gracefully handles no value for this.selectedTrack
+      if (!this.selectedTrack) {
+        (alert('Please select a song'));
+        return;
+      }
+      const track = this.selectedTrack;
+      // checks to see if track has been loaded yet.
+      // If not, it loads track and aborts.
+      //
+      console.log('playTracks track', track);
       if (!this.isTrackInitialized(track)) {
         this.loadTrack(track);
+        return;
       }
-      // console.log('selected track element: ', this.trackBuffers[track.trackId]);
+      // console.log('selected track element: ', this.tracks[track.trackId]);
 
       // THIS will be a problem. Changing to use web audio api. will need additional wiring
-      this.trackBuffers[track.trackId].play();
-      this.startPlaybackTicker(this.trackBuffers[track.trackId], 100);
+      this.tracks[track.trackId].play();
+      this.startPlaybackTicker(this.tracks[track.trackId], 100);
     },
 
     // Pauses playback of the audio element represented by `selectedTrack`
@@ -141,14 +153,34 @@ export default {
     // not optomized for anything
     // just get the damn song
     loadTrack(trackObj) {
-      console.log("loadTrack fetching track: ", trackObj);
+      // this.tracks[trackObj.trackId] = this.ctx.createBuffer(2, );
+      console.log('loadTrack fetching track: ', trackObj);
       fetch(trackObj.url)
-        .then((audioResponse) => {
-          console.log('audioResponse: ', audioResponse);
+        .then((response) => {
+          console.log('loadTrack response: ', response);
+          // response.value for fetch streams is a Uint8Array
+          const blob = new Blob([response.value], { type: 'audio/wav' });
+          const url = window.URL.createObjectURL(blob);
+          this.tracks[trackObj.trackId] = new Audio(url);
+          console.log(`track ${trackObj.trackId} has been loaded: `, this.tracks[trackObj.trackId]);
+          // window.audio.src = url;
+          // window.audio.play();
+          this.tracks[trackObj.trackId].play();
+        })
+        .catch((error) => {
+          // console.log('ERROR: ', error);
         });
+      // .then((audioResponse) => {
+
+      //   console.log('audioResponse: ', audioResponse);
+      //   console.log("audioResponse.body.getReader().
+      // read()", audioResponse.body.getReader().read());
+      // });
     },
     isTrackInitialized(track) {
-      if (this.trackBuffers[track.trackId]) {
+      // console.log('track .trackId in isTrackInitialized:', track.trackId);
+      // console.log('this.tracks[track] in isTrackInitialized: ', this.tracks[track]);
+      if (this.tracks[track.trackId]) {
         return true;
       }
       return false;

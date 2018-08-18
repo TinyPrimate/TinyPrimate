@@ -65,6 +65,7 @@ export default {
     },
     selectTrack(track = null) {
       const selectedTrack = track;
+      // Pass selected track to PlaybackControl component
       this.$children[0].selectTrack(selectedTrack);
     },
   },
