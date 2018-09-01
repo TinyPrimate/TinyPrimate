@@ -36,6 +36,7 @@
     <button id="pauseButton" v-on:click="pauseTrack">pause</button>
     <button id="altTrack" v-on:click="altTrack">change</button>
     <br><span id="currentTimeInSeconds">{{ currentTimeInSeconds }}</span>
+    <!-- <audio controls src="https://s3.us-east-2.amazonaws.com/tinyprimate-1/albums/baby-talk/Tiny+Primate__4.wav"></audio> -->
   </div>
 </template>
 
@@ -50,8 +51,8 @@ Somthing like.... import PlaylistFactory from @/factories/
 -->
 <script type="text/javascript">
 // track urls hard coded for now, but will eventually come from Playlist.vue component
-import tinyPrimateWav from '@/assets/audio/baby_talk/tiny_primate_4.wav';
-import contortionistWav from '@/assets/audio/baby_talk/contortionist_5.wav';
+// import tinyPrimateWav from '@/assets/audio/baby_talk/tiny_primate_4.wav';
+// import contortionistWav from '@/assets/audio/baby_talk/contortionist_5.wav';
 
 export default {
   data() {
@@ -157,14 +158,57 @@ export default {
       console.log('loadTrack fetching track: ', trackObj);
       fetch(trackObj.url)
         .then((response) => {
-          console.log('loadTrack response: ', response);
-          // response.value for fetch streams is a Uint8Array
-          const blob = new Blob([response.value], { type: 'audio/wav' });
-          const url = window.URL.createObjectURL(blob);
-          this.tracks[trackObj.trackId] = new Audio(url);
-          console.log(`track ${trackObj.trackId} has been loaded: `, this.tracks[trackObj.trackId]);
-          // window.audio.src = url;
-          // window.audio.play();
+
+
+          let reader = response.body.getReader();
+          let pump = () => {
+            // console.log('reader.read()', reader.read());
+
+              reader.read().then(({value, done}) => {
+                  // value // chunk of data (push chunk to audio context)
+                  let theBufferSegment = value.buffer;
+
+                  console.log('theBufferSegment', theBufferSegment);
+
+                  // let theTrack = this.tracks[trackObj.trackId];
+                  // addToAudioBuffer(theTrack, theBufferSegment);
+                  if(!done) pump()
+              })
+          }
+          pump()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          // console.log('loadTrack response: ', response);
+          // // response.value for fetch streams is a Uint8Array
+          // const blob = new Blob([response.value], { type: 'audio/wav' });
+          // const url = window.URL.createObjectURL(blob);
+          // this.tracks[trackObj.trackId] = new Audio(url);
+          // console.log(`track ${trackObj.trackId} has been loaded: `, this.tracks[trackObj.trackId]);
+          // // window.audio.src = url;
+          // // window.audio.play();
+
+
+
+
+
+
+
+
+
+
+          // Failing here because "this" is udefined
           this.tracks[trackObj.trackId].play();
         })
         .catch((error) => {

@@ -27,8 +27,11 @@
 <template>
   <div id="playlist">
     <PlaybackControl/>
-    <li :key="track.trackId" v-for="track in playlist" v-on:click="selectTrack(track)">
-      {{ track.title }}
+    <!-- <li :key="track.trackId" v-for="track in playlist" v-on:click="selectTrack(track)"> -->
+    <li :key="track.trackId" v-for="track in playlist">
+      <audio controls v-bind:src="track.url" v-bind:data-title="track.title">
+      <!-- <audio controls v-for="track in playlist" v-bind:src="track.url" v-bind:data-title="track.title"> -->
+      </audio>
     </li>
   </div>
 </template>
@@ -52,7 +55,7 @@ export default {
   },
   methods: {
     assemblePlaylist() {
-      this.playlist = PlaylistFactory.methods.getTracksByFilter('/Users/Sam/TinyPrimate/tinyprimate/src/assets/audio/baby_talk');
+      this.playlist = PlaylistFactory.methods.getTracksByFilter('https://s3.us-east-2.amazonaws.com/tinyprimate-1');
       return this.playlist;
     },
     getTrackSource(trackId = null) {
@@ -75,12 +78,16 @@ export default {
 };
 </script>
 
-<style type="scss">
+<style type="scss" scoped>
 #playlist {
   width: 38%;
   height: 500px;
   border: 2px solid black;
   padding: 5px;
+}
+
+div {
+  background-color: lightblue;
 }
 
 li {
