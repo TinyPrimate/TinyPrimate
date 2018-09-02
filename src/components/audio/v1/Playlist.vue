@@ -26,11 +26,11 @@
 
 <template>
   <div class="player">
-    <div id="playback_control_wrapper" ref="playback_control_wrapper">
+    <!-- <div id="playback_control_wrapper" ref="playback_control_wrapper"> -->
       <!-- <button id="playButton" v-on:click="playTrack">play</button> -->
       <!-- <button id="pauseButton" v-on:click="pauseTrack">pause</button> -->
       <!-- <br><span id="currentTimeInSeconds">{{ currentTimeInSeconds }}</span> -->
-    </div>
+    <!-- </div> -->
     <ul class="playlist" ref="playlist">
       <li :key="track.trackId" v-for="(track, key, index) in playlist" v-on:click="selectTrack(track, index)">{{track.title}}
         <audio controls ref="tracks" v-bind:src="track.url" v-bind:data-title="track.title">
@@ -97,9 +97,12 @@ export default {
   width: 25%;
   height: 500px;
   border-right: 2px solid black;
-  padding: 5px;
+  padding: 0 5px 0 5px;
+  margin: 0;
   position: fixed;
   background-color: lightgrey;
+  bottom: 0;
+  box-shadow: 1px 1px 5px #888888;
 }
 
 div {
@@ -107,6 +110,7 @@ div {
 }
 
 .playlist {
+  margin: 0;
   overflow: scroll;
   padding: 0;
 }

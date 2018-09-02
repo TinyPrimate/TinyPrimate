@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <!-- <img src="../assets/TinyPrimateLogo__Colorful__2.png"> -->
+    <img src="../assets/TinyPrimateLogo__Colorful__2.png">
     <Playlist/>
   </div>
 </template>
@@ -28,6 +28,6 @@ export default {
 
 <style scoped lang="scss">
 img {
-    float: left;
+    margin: auto;
 }
 </style>
