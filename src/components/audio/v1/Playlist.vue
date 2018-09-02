@@ -26,11 +26,11 @@
 
 <template>
   <div class="player">
-    <!-- <div id="playback_control_wrapper" ref="playback_control_wrapper"> -->
-      <!-- <button id="playButton" v-on:click="playTrack">play</button> -->
-      <!-- <button id="pauseButton" v-on:click="pauseTrack">pause</button> -->
+    <div id="playback_control_wrapper" ref="playback_control_wrapper">
+      <button id="playButton" v-on:click="playTrack">play</button>
+      <button id="pauseButton" v-on:click="pauseTrack">pause</button>
       <!-- <br><span id="currentTimeInSeconds">{{ currentTimeInSeconds }}</span> -->
-    <!-- </div> -->
+    </div>
     <ul class="playlist" ref="playlist">
       <li :key="track.trackId" v-for="(track, key, index) in playlist" v-on:click="selectTrack(track, index)">{{track.title}}
         <audio controls ref="tracks" v-bind:src="track.url" v-bind:data-title="track.title">
@@ -72,6 +72,12 @@ export default {
       }
       return this.playlist[trackId].url;
     },
+    playTrack(event, trackToPlay = this.selectedTrack) {
+        trackToPlay.play();
+    },
+    pauseTrack(event, trackToPause = this.selectedTrack) {
+      trackToPause.pause();
+    },
     selectTrack(track = null, index = 0) {
       // Skip pausing if no track currently selected
       if (this.selectedTrack) {
@@ -83,7 +89,7 @@ export default {
         this.selectedTrack.pause();
       }
       this.selectedTrack = this.$refs['tracks'][index];
-      this.selectedTrack.play();
+      this.playTrack();
     },
   },
   mounted() {
