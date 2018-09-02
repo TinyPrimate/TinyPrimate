@@ -26,13 +26,13 @@
 
 <template>
   <div class="player">
-    <div id="playback_control_wrapper" ref="playback_control_wrapper">
+    <div class="playback-control" ref="playback-control">
+      <h3 id="currentTimeInSeconds">{{ currentTimeInSeconds }}</h3>
       <button id="playButton" v-on:click="playTrack">play</button>
       <button id="pauseButton" v-on:click="pauseTrack">pause</button>
-      <br><span id="currentTimeInSeconds">{{ currentTimeInSeconds }}</span>
     </div>
     <ul class="playlist" ref="playlist">
-      <li :key="track.trackId" v-for="(track, key, index) in playlist" v-on:click="selectTrack(track, index)">{{track.title}}
+      <li class="playlist-item" :key="track.trackId" v-for="(track, key, index) in playlist" v-on:click="selectTrack(track, index)">{{index + 1}}. {{track.title}}
         <audio ref="tracks" v-bind:src="track.url" v-bind:data-title="track.title">
         <!-- <audio controls v-bind:ref="track.trackId" v-bind:src="track.url" v-bind:data-title="track.title"> -->
         </audio>
@@ -133,12 +133,15 @@ export default {
   width: 25%;
   height: 500px;
   border-right: 2px solid black;
+  padding: 0;
   padding: 0 5px 0 5px;
   margin: 0;
   position: fixed;
   background-color: lightgrey;
-  bottom: 0;
+  bottom: 4vh;
+  left: 2vh;
   box-shadow: 1px 1px 5px #888888;
+  overflow: scroll;
 }
 
 div {
@@ -147,15 +150,20 @@ div {
 
 .playlist {
   margin: 0;
-  overflow: scroll;
   padding: 0;
 }
 
-li {
+.playlist-item {
   list-style: none;
   text-align: left;
   padding: 3px;
+  margin: 0;
   border-top: 1px solid black;
+  height: 5vh;
+}
+
+.playback-control {
+  height: 10vh;
 }
 
 audio {
