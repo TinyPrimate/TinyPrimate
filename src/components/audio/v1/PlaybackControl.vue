@@ -31,13 +31,13 @@
 
 <!-- html -->
 <template>
-  <div id="playback_control_wrapper">
+<!--   <div id="playback_control_wrapper" ref="playback_control_wrapper">
     <button id="playButton" v-on:click="playTrack">play</button>
     <button id="pauseButton" v-on:click="pauseTrack">pause</button>
     <button id="altTrack" v-on:click="altTrack">change</button>
     <br><span id="currentTimeInSeconds">{{ currentTimeInSeconds }}</span>
-    <!-- <audio controls src="https://s3.us-east-2.amazonaws.com/tinyprimate-1/albums/baby-talk/Tiny+Primate__4.wav"></audio> -->
-  </div>
+    <audio controls src="https://s3.us-east-2.amazonaws.com/tinyprimate-1/albums/baby-talk/Tiny+Primate__4.wav"></audio>
+  </div> -->
 </template>
 
 <!-- javascript -->
@@ -58,10 +58,8 @@ export default {
   data() {
     return {
       currentTimeInSeconds: 0,
-      tracks: {},
       selectedTrack: null,
       playbackTicker: null,
-      ctx: new AudioContext(),
     };
   },
   methods: {
@@ -129,106 +127,6 @@ export default {
     Pauses the current song and overwrites `selectedTrack` audio element with a new element
     sourced from a different audio file
     */
-    selectTrack(trackObj) {
-      // TODO: this is a sloppy way to decide if the track should be changed. Make better.
-      // Early escape if the track passed in is already the selected track
-      // this.isTrackInitialized(trackObj);
-      console.log('trackObj', trackObj);
-      if (this.selectedTrack) {
-        console.log('this.selectedTrack', this.selectedTrack);
-        if (this.selectedTrack.trackId === `${trackObj.trackId}`) {
-          return;
-        }
-        // Otherwise, pauses the current track. Overwrites `selectedTrack` instance with a new
-        this.pauseTrack();
-      }
-      this.selectedTrack = trackObj;
-      // audio element sourced from the argument passed in. Begins playing the new track.
-      // this.selectedTrack = new Audio(selectedTrackSrc);
-      // const trackSrc = trackObj.url;
-      // console.log('trackSrc:', trackSrc);
-      // this.selectedTrack = new Audio(trackSrc);
-      this.playTrack();
-    },
-    // fetchTrack mvp fetch call to retrieve audio file
-    // not optomized for anything
-    // just get the damn song
-    loadTrack(trackObj) {
-      // this.tracks[trackObj.trackId] = this.ctx.createBuffer(2, );
-      console.log('loadTrack fetching track: ', trackObj);
-      fetch(trackObj.url)
-        .then((response) => {
-
-
-          let reader = response.body.getReader();
-          let pump = () => {
-            // console.log('reader.read()', reader.read());
-
-              reader.read().then(({value, done}) => {
-                  // value // chunk of data (push chunk to audio context)
-                  let theBufferSegment = value.buffer;
-
-                  console.log('theBufferSegment', theBufferSegment);
-
-                  // let theTrack = this.tracks[trackObj.trackId];
-                  // addToAudioBuffer(theTrack, theBufferSegment);
-                  if(!done) pump()
-              })
-          }
-          pump()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          // console.log('loadTrack response: ', response);
-          // // response.value for fetch streams is a Uint8Array
-          // const blob = new Blob([response.value], { type: 'audio/wav' });
-          // const url = window.URL.createObjectURL(blob);
-          // this.tracks[trackObj.trackId] = new Audio(url);
-          // console.log(`track ${trackObj.trackId} has been loaded: `, this.tracks[trackObj.trackId]);
-          // // window.audio.src = url;
-          // // window.audio.play();
-
-
-
-
-
-
-
-
-
-
-          // Failing here because "this" is udefined
-          this.tracks[trackObj.trackId].play();
-        })
-        .catch((error) => {
-          // console.log('ERROR: ', error);
-        });
-      // .then((audioResponse) => {
-
-      //   console.log('audioResponse: ', audioResponse);
-      //   console.log("audioResponse.body.getReader().
-      // read()", audioResponse.body.getReader().read());
-      // });
-    },
-    isTrackInitialized(track) {
-      // console.log('track .trackId in isTrackInitialized:', track.trackId);
-      // console.log('this.tracks[track] in isTrackInitialized: ', this.tracks[track]);
-      if (this.tracks[track.trackId]) {
-        return true;
-      }
-      return false;
-    },
 
     // auto-select alternate track for user. dev use.
     altTrack() {
@@ -247,12 +145,6 @@ export default {
 
 <!-- scss -->
 <style scoped lang="scss">
-// #playback_control_wrapper {
-//   width: 38%;
-//   height: 500px;
-//   border: 2px solid black;
-//   padding: 5px;
-// }
 #currentTimeInSeconds {
   padding: 2px;
   text-align: middle;
@@ -260,7 +152,7 @@ export default {
 button {
   width: 50px;
   height: 50px;
-  background-color: lightgrey;
+  background-color: grey;
   border: 1px solid black;
 }
 </style>

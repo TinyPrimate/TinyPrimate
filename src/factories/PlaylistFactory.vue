@@ -40,13 +40,18 @@ export default {
         this.tracks = {
           0: {
             trackId: 0,
-            title: 'Tiny Primate__4',
-            url: `${audioBucketUrl}/albums/baby-talk/Tiny+Primate__4.wav`,
+            title: 'Bunny-Ball__8',
+            url: `${audioBucketUrl}/albums/baby-talk/Bunny-Ball__8.wav`,
           },
           1: {
             trackId: 1,
             title: 'Contortionist__5',
             url: `${audioBucketUrl}/albums/baby-talk/Contortionist__5.wav`,
+          },
+          2: {
+            trackId: 2,
+            title: 'Tiny Primate__4',
+            url: `${audioBucketUrl}/albums/baby-talk/Tiny+Primate__4.wav`,
           },
         };
       }

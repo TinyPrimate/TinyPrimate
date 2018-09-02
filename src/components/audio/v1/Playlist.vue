@@ -25,14 +25,19 @@
 -->
 
 <template>
-  <div id="playlist">
-    <PlaybackControl/>
-    <!-- <li :key="track.trackId" v-for="track in playlist" v-on:click="selectTrack(track)"> -->
-    <li :key="track.trackId" v-for="track in playlist">
-      <audio controls v-bind:src="track.url" v-bind:data-title="track.title">
-      <!-- <audio controls v-for="track in playlist" v-bind:src="track.url" v-bind:data-title="track.title"> -->
-      </audio>
-    </li>
+  <div class="player">
+    <div id="playback_control_wrapper" ref="playback_control_wrapper">
+      <!-- <button id="playButton" v-on:click="playTrack">play</button> -->
+      <!-- <button id="pauseButton" v-on:click="pauseTrack">pause</button> -->
+      <!-- <br><span id="currentTimeInSeconds">{{ currentTimeInSeconds }}</span> -->
+    </div>
+    <ul class="playlist" ref="playlist">
+      <li :key="track.trackId" v-for="(track, key, index) in playlist" v-on:click="selectTrack(track, index)">{{track.title}}
+        <audio controls ref="tracks" v-bind:src="track.url" v-bind:data-title="track.title">
+        <!-- <audio controls v-bind:ref="track.trackId" v-bind:src="track.url" v-bind:data-title="track.title"> -->
+        </audio>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -44,6 +49,7 @@ export default {
   data() {
     return {
       playlist: {},
+      selectedTrack: null,
     };
   },
   components: {
@@ -66,10 +72,18 @@ export default {
       }
       return this.playlist[trackId].url;
     },
-    selectTrack(track = null) {
-      const selectedTrack = track;
-      // Pass selected track to PlaybackControl component
-      this.$children[0].selectTrack(selectedTrack);
+    selectTrack(track = null, index = 0) {
+      // Skip pausing if no track currently selected
+      if (this.selectedTrack) {
+        // early exit if user re-selects the currently selected track
+        if (this.selectedTrack.key === track.trackId) {
+          return
+        }
+        // Ensure currently selected track is paused so no two tracks play simultaneously
+        this.selectedTrack.pause();
+      }
+      this.selectedTrack = this.$refs['tracks'][index];
+      this.selectedTrack.play();
     },
   },
   mounted() {
@@ -79,15 +93,22 @@ export default {
 </script>
 
 <style type="scss" scoped>
-#playlist {
-  width: 38%;
+.player {
+  width: 25%;
   height: 500px;
-  border: 2px solid black;
+  border-right: 2px solid black;
   padding: 5px;
+  position: fixed;
+  background-color: lightgrey;
 }
 
 div {
-  background-color: lightblue;
+  /*background-color: lightblue;*/
+}
+
+.playlist {
+  overflow: scroll;
+  padding: 0;
 }
 
 li {
@@ -95,5 +116,9 @@ li {
   text-align: left;
   padding: 3px;
   border-top: 1px solid black;
+}
+
+audio {
+  width: 100%;
 }
 </style>

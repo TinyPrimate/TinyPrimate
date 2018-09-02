@@ -1,9 +1,6 @@
 <template>
   <div class="home">
-    <!-- monkey_icon.svg was originally downloaded from https://en.m.wikipedia.org/wiki/File:Monkey.svg -->
-    <img src="../assets/monkey_icon.svg">
-    <HelloWorld msg="Welcome to TinyPrimate"/>
-    <!-- <PlaybackControl/> -->
+    <!-- <img src="../assets/TinyPrimateLogo__Colorful__2.png"> -->
     <Playlist/>
   </div>
 </template>
@@ -30,4 +27,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+img {
+    float: left;
+}
 </style>
