@@ -29,11 +29,11 @@
     <div id="playback_control_wrapper" ref="playback_control_wrapper">
       <button id="playButton" v-on:click="playTrack">play</button>
       <button id="pauseButton" v-on:click="pauseTrack">pause</button>
-      <!-- <br><span id="currentTimeInSeconds">{{ currentTimeInSeconds }}</span> -->
+      <br><span id="currentTimeInSeconds">{{ currentTimeInSeconds }}</span>
     </div>
     <ul class="playlist" ref="playlist">
       <li :key="track.trackId" v-for="(track, key, index) in playlist" v-on:click="selectTrack(track, index)">{{track.title}}
-        <audio controls ref="tracks" v-bind:src="track.url" v-bind:data-title="track.title">
+        <audio ref="tracks" v-bind:src="track.url" v-bind:data-title="track.title">
         <!-- <audio controls v-bind:ref="track.trackId" v-bind:src="track.url" v-bind:data-title="track.title"> -->
         </audio>
       </li>
@@ -50,6 +50,7 @@ export default {
     return {
       playlist: {},
       selectedTrack: null,
+      currentTimeInSeconds: 0,
     };
   },
   components: {
@@ -74,6 +75,7 @@ export default {
     },
     playTrack(event, trackToPlay = this.selectedTrack) {
         trackToPlay.play();
+        this.startPlaybackTicker(trackToPlay, 100);
     },
     pauseTrack(event, trackToPause = this.selectedTrack) {
       trackToPause.pause();
@@ -90,6 +92,34 @@ export default {
       }
       this.selectedTrack = this.$refs['tracks'][index];
       this.playTrack();
+    },
+    /*
+      Begins an interval loop that is used to trigger events at
+      a defined tickrate as `selectedTrack` plays
+    */
+    startPlaybackTicker(audioElement, tickrate = 1000) {
+      this.playbackTicker = setInterval(() => {
+        this.setCurrentTimeInSeconds(audioElement);
+      }, tickrate);
+    },
+
+    // Clears out the interval instance passed to it
+    stopInterval(intervalInstance) {
+      clearInterval(intervalInstance);
+    },
+
+    // Returns the `currentTimeInSeconds` data property
+    getCurrentTimeInSeconds() {
+      return this.currentTimeInSeconds;
+    },
+
+    /*
+    Sets the `currentTimeInSeconds` data property to be equal to the `currentTime` property
+    value of the audio element `selectedTrack` rounded down to the nearest whole number.
+    If `currentTime` value equals '5.99', `currentTimeInSeconds` will be set to equal '5'
+    */
+    setCurrentTimeInSeconds() {
+      this.currentTimeInSeconds = Math.floor(this.selectedTrack.currentTime);
     },
   },
   mounted() {
