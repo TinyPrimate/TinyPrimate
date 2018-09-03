@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import Playlist from '@/components/audio/v1/Playlist.vue';
-// import PlaylistFactory from '@/factories/PlaylistFactory.vue';
 import Vue from 'vue';
 
 describe('Playlist.vue', () => {

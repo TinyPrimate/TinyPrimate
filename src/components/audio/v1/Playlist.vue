@@ -150,7 +150,9 @@ export default {
 .player {
   width: 25%;
   height: 500px;
-  border-right: 2px solid black;
+  /*border-left: 2px solid black;*/
+  /*border-right: 2px solid black;*/
+  border-radius: 20px;
   padding: 0;
   padding: 0 5px 0 5px;
   margin: 0;

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img src="../assets/TinyPrimateLogo__Colorful__2.png">
+    <!-- <img src="../assets/TinyPrimateLogo__Colorful__2.png"> -->
     <Playlist/>
   </div>
 </template>
