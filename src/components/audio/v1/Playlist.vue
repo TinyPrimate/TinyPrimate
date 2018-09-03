@@ -64,13 +64,13 @@ export default {
   methods: {
     assemblePlaylist(context) {
       // catch for if vue component not passed in use most likely scenario
-      let vc;
-      if (!context) {
-        vc = this;
-      } else {
-        vc = context
-      }
-      return new Promise(function (resolve, reject) {
+      const vc = context || this;
+      // if (!context) {
+      //   vc = this;
+      // } else {
+      //   vc = context;
+      // }
+      return new Promise((resolve, reject) => {
         vc.playlist = PlaylistFactory.methods.getTracksByFilter('https://s3.us-east-2.amazonaws.com/tinyprimate-1');
         // if ajax call, trigger next line at success event instead of if statement
         if (vc.playlist) {

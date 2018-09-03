@@ -1,5 +1,5 @@
 module.exports = {
-    // TODO: Cleanup crappy selectors
+  // TODO: Cleanup crappy selectors
   'Test Home PlaybackControl': (browser) => {
     browser
       .url(process.env.VUE_DEV_SERVER_URL)

@@ -54,6 +54,5 @@ describe('Playlist.vue', () => {
         });
       });
     // verifies the default playlist is returned when no query parameter passed in
-    
   });
 });
