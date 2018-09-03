@@ -60,12 +60,28 @@ export default {
     PlaylistFactory,
   },
   created() {
-    // console.log('playlist: ', this);
   },
   methods: {
-    assemblePlaylist() {
-      this.playlist = PlaylistFactory.methods.getTracksByFilter('https://s3.us-east-2.amazonaws.com/tinyprimate-1');
-      return this.playlist;
+    assemblePlaylist(context) {
+      // catch for if vue component not passed in use most likely scenario
+      let vc;
+      if (!context) {
+        vc = this;
+      } else {
+        vc = context
+      }
+      return new Promise(function (resolve, reject) {
+        vc.playlist = PlaylistFactory.methods.getTracksByFilter('https://s3.us-east-2.amazonaws.com/tinyprimate-1');
+        // if ajax call, trigger next line at success event instead of if statement
+        if (vc.playlist) {
+          resolve(vc.playlist);
+        }
+        reject(vc.playlist);
+      });
+      // based on object indexing may not work on non test data
+      // console.log("this.playlist", this.playlist);
+      // this.selectTrack();
+      // return this.playlist;
     },
     playTrack(event, trackToPlay = this.selectedTrack) {
       trackToPlay.play();
@@ -74,7 +90,7 @@ export default {
     pauseTrack(event, trackToPause = this.selectedTrack) {
       trackToPause.pause();
     },
-    selectTrack(track = null, index = 0) {
+    selectTrack(track = null, index = 0, autoPlay = true) {
       // Skip pausing if no track currently selected
       if (this.selectedTrack) {
         // early exit if user re-selects the currently selected track
@@ -85,11 +101,10 @@ export default {
         this.selectedTrack.pause();
       }
       this.selectedTrack = this.$refs.tracks[index];
-      this.playTrack();
+      if (autoPlay) {
+        this.playTrack();
+      }
     },
-    // isSelectedTrack(track) {
-
-    // },
     /*
       Begins an interval loop that is used to trigger events at
       a defined tickrate as `selectedTrack` plays
@@ -120,7 +135,13 @@ export default {
     },
   },
   mounted() {
-    this.assemblePlaylist();
+    this.assemblePlaylist(this)
+      .then(() => {
+        this.selectTrack(null, 0, false);
+      });
+    // select the first track from this.tracks
+    // may have a bug if indexing based on keys not position
+    // this.selectTrack(null, 0);
   },
 };
 </script>
