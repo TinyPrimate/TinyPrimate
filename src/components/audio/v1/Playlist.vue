@@ -159,7 +159,7 @@ export default {
   position: fixed;
   background-color: lightgrey;
   bottom: 4vh;
-  left: 2vh;
+  right: 2vh;
   box-shadow: 1px 1px 5px #888888;
   overflow: scroll;
 }
