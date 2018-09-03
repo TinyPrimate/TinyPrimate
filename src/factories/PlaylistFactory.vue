@@ -36,7 +36,9 @@ export default {
       // this.tracks = axiom.get({{apiUrl}}/tracks/{{queryParameters}});
       if (!query) {
         // TODO: return error bubbled up to user that tells them to select an option/enter a query
-        // TODO: Break apart url so that we have separate properties for host and album/playlist (gives chance to route requests to API later)
+        // TODO: Break apart url so that we have separate properties for
+        // host and album/playlist
+        // (gives chance to route requests to API later)
         this.tracks = {
           0: {
             trackId: 0,
