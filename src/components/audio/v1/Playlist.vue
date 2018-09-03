@@ -43,7 +43,6 @@
 
 <script type="text/javascript">
 import PlaylistFactory from '@/factories/PlaylistFactory.vue';
-import PlaybackControl from '@/components/audio/v1/PlaybackControl.vue';
 
 export default {
   data() {
@@ -55,7 +54,6 @@ export default {
   },
   components: {
     PlaylistFactory,
-    PlaybackControl,
   },
   created() {
     // console.log('playlist: ', this);
@@ -92,6 +90,9 @@ export default {
       }
       this.selectedTrack = this.$refs['tracks'][index];
       this.playTrack();
+    },
+    isSelectedTrack(track) {
+
     },
     /*
       Begins an interval loop that is used to trigger events at
@@ -164,6 +165,10 @@ div {
 
 .playback-control {
   height: 10vh;
+}
+
+.selectedTrack {
+  background-color: darkgrey;
 }
 
 audio {
