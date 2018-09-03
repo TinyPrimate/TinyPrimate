@@ -8,7 +8,7 @@ module.exports = {
       .waitForElementVisible('.playlist-item', 5000)
       .click('#playButton')
       // give it time to begin fetching track
-      .pause(500)
+      .pause(1000)
       // after waiting for 1.5 seconds, assert playback timer displays
       // "1" to represent the number of seconds we are into the song
       .pause(1500)
@@ -27,7 +27,7 @@ module.exports = {
       .click('#app > div.home > div > ul > li:nth-child(8)')
       .pause('500')
       .assert.containsText('#currentTimeInSeconds', 0, 'Playback timer should be "0" after changing tracks')
-      .pause(2200)
+      .pause(2600)
       .assert.containsText('#currentTimeInSeconds', 2, 'Playback timer should resume incrementing on the new track')
       .click('#pauseButton')
       .pause(2)
@@ -35,7 +35,7 @@ module.exports = {
       .click('#app > div.home > div > ul > li:nth-child(2)')
       .pause(500)
       .assert.containsText('#currentTimeInSeconds', 0, 'Playback timer should reset when paused track is changed')
-      .pause(1200)
+      .pause(1500)
       .assert.containsText('#currentTimeInSeconds', 1, 'Playback should begin immediately when new song selected while old song was paused')
       .end();
   },
