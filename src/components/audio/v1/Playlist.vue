@@ -25,24 +25,28 @@
 -->
 
 <template>
-  <div class="player">
+  <v-container class="player">
     <div class="playback-control" ref="playback-control">
       <h3 id="currentTimeInSeconds">{{ currentTimeInSeconds }}</h3>
-      <button id="playButton" v-on:click="playTrack">play</button>
-      <button id="pauseButton" v-on:click="pauseTrack">pause</button>
+      <v-btn id="playButton" v-on:click="playTrack">play</v-btn>
+      <v-btn id="pauseButton" v-on:click="pauseTrack">pause</v-btn>
     </div>
-    <ul class="playlist" ref="playlist">
-      <li
-        v-for="(track, key, index) in playlist"
-        v-bind:key="track.trackId"
-        class="playlist-item"
-        v-on:click="selectTrack(track, index)">
-        {{index + 1}}. {{track.title}}
-        <audio preload="none" ref="tracks" v-bind:src="track.url" v-bind:data-title="track.title">
-        </audio>
-      </li>
-    </ul>
-  </div>
+    <div class="playlist-div">
+      <ul class="playlist" ref="playlist">
+        <li
+          v-for="(track, key, index) in playlist"
+          v-bind:key="track.trackId"
+          class="playlist-item elevation-2"
+          v-on:click="selectTrack(track, index)">
+          <v-card class="playlist-card">
+            {{index + 1}}. {{track.title}}
+            <audio preload="none" ref="tracks" v-bind:src="track.url" v-bind:data-title="track.title">
+            </audio>
+          </v-card>
+        </li>
+      </ul>
+    </div>
+  </v-container>
 </template>
 
 <script type="text/javascript">
@@ -147,11 +151,46 @@ export default {
 </script>
 
 <style type="scss" scoped>
+.playlist-item {
+  height: 5vh;
+  margin: 0.5vh 0 0 0;
+  list-style: none;
+  text-align: left;
+  border-top: 1px solid black;
+}
+
+.playlist {
+  padding: 0;
+  overflow: scroll;
+
+}
+
+.playlist-card {
+  height: 100%;
+}
+
 .player {
+  height: 100%;
+  padding: 0;
+}
+
+.playlist-div {
+  height: 70%;
+  overflow: scroll;
+}
+
+.playback-control {
+  height: 30%;
+  border-bottom: 1px solid black;
+  padding: 2vh;
+}
+
+.selected-track {
+  background-color: tan;
+}
+/*.player {
   width: 25%;
   height: 500px;
-  /*border-left: 2px solid black;*/
-  /*border-right: 2px solid black;*/
   border-radius: 20px;
   padding: 0;
   padding: 0 5px 0 5px;
@@ -170,8 +209,6 @@ export default {
 }
 
 .playlist-item {
-  list-style: none;
-  text-align: left;
   padding: 3px;
   margin: 0;
   border-top: 1px solid black;
@@ -188,5 +225,5 @@ export default {
 
 audio {
   width: 100%;
-}
+}*/
 </style>
