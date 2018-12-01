@@ -1,4 +1,4 @@
-import '@babel/polyfill'
+import '@babel/polyfill';
 import 'vuetify/dist/vuetify.min.css'; // Ensure you are using css-loader
 import Vuetify from 'vuetify';
 import Vue from 'vue';

@@ -24,7 +24,6 @@
       </v-flex>
 
 
-
     </v-layout>
   </v-container>
 </template>

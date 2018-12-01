@@ -11,7 +11,7 @@ module.exports = {
       .pause(1000)
       // after waiting for 1.5 seconds, assert playback timer displays
       // "1" to represent the number of seconds we are into the song
-      .pause(1500)
+      .pause(1300)
       .assert.containsText('#currentTimeInSeconds', 1)
       // pause the song, wait 3 seconds,
       // then assert playback timer still displays the value set at pause
@@ -24,7 +24,7 @@ module.exports = {
       .pause(2000)
       .assert.containsText('#currentTimeInSeconds', 3, 'Playback timer should be "3" after resuming playback and waiting for 2 seconds.')
       // change tracks, assert playback timer restarts incrementing at 0
-      .click('#app > div > div.home > div > ul > li:nth-child(8)')
+      .click('#tp-player-sidebar-container > div:nth-child(2) > div > div > div.playlist-div > ul > li:nth-child(3) > div')
       .pause('500')
       .assert.containsText('#currentTimeInSeconds', 0, 'Playback timer should be "0" after changing tracks')
       .pause(2600)
@@ -32,7 +32,7 @@ module.exports = {
       .click('#pauseButton')
       .pause(2)
       .assert.containsText('#currentTimeInSeconds', 2, 'Playback timer should pause when new song is paused')
-      .click('#app > div > div.home > div > ul > li:nth-child(2)')
+      .click('#tp-player-sidebar-container > div:nth-child(2) > div > div > div.playlist-div > ul > li:nth-child(2) > div')
       .pause(500)
       .assert.containsText('#currentTimeInSeconds', 0, 'Playback timer should reset when paused track is changed')
       .pause(1500)
